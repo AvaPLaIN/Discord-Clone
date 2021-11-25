@@ -24,6 +24,10 @@ const UserSchema = new mongoose.Schema({
       'Provide valid username',
     ],
   },
+  hash: {
+    type: String,
+    default: '#number',
+  },
   email: {
     type: String,
     required: [true, 'Provide email'],
@@ -43,6 +47,7 @@ const UserSchema = new mongoose.Schema({
     minlength: 8,
     select: false,
   },
+  friends: [],
   createdAt: {
     type: Date,
     default: Date.now(),
