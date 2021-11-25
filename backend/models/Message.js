@@ -13,6 +13,7 @@ const MessageSchema = new mongoose.Schema({
     minlength: 1,
     maxlength: 200,
   },
+  from: User,
   createdAt: {
     type: Date,
     default: Date.now(),

@@ -12,6 +12,10 @@ const InvationSchema = new mongoose.Schema({
     trim: true,
     unique: true,
   },
+  expiresIn: {
+    type: Date,
+  },
+  number: Number,
   createdAt: {
     type: Date,
     default: Date.now(),
