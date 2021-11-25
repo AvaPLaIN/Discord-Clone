@@ -15,6 +15,10 @@ const ServerSchema = new mongoose.Schema({
     minlength: 3,
     maxlength: 30,
   },
+  admin: {
+    type: User,
+    required: [true, 'provide server admin'],
+  },
   rooms: [Room],
   users: [User],
   invations: [Invation],
