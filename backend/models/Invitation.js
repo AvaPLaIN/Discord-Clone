@@ -1,11 +1,8 @@
 //* IMPORTS
 const mongoose = require('mongoose');
 
-//     * SCHEMAS
-const { UserSchema } = require('./User');
-
 //! SCHEMA
-const InvationSchema = new mongoose.Schema({
+const InvitationSchema = new mongoose.Schema({
   token: {
     type: String,
     required: [true, 'Provide message'],
@@ -29,11 +26,11 @@ const InvationSchema = new mongoose.Schema({
 });
 
 //! USER MIDDLEWARE
-InvationSchema.pre('save', async function (next) {
+InvitationSchema.pre('save', async function (next) {
   this.updatedAt = Date.now();
   next();
 });
 
-const Invation = mongoose.model('Invation', InvationSchema);
+const Invation = mongoose.model('Invitation', InvitationSchema);
 
-module.exports = { Invation, InvationSchema };
+module.exports = { Invation, InvitationSchema };

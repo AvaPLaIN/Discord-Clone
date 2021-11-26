@@ -1,11 +1,6 @@
 //* IMPORTS
 const mongoose = require('mongoose');
 
-//     * SCHEMAS
-const { User, UserSchema } = require('./User');
-const { RoomSchema } = require('./Room');
-const { InvationSchema } = require('./Invation');
-
 //! SCHEMA
 const ServerSchema = new mongoose.Schema({
   name: {
@@ -32,7 +27,7 @@ const ServerSchema = new mongoose.Schema({
   },
   invations: {
     type: [mongoose.SchemaTypes.ObjectId],
-    ref: 'Invation',
+    ref: 'Invitation',
     default: [],
   },
   createdAt: {
