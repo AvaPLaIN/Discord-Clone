@@ -21,7 +21,7 @@ const ServerSchema = new mongoose.Schema({
     required: [true, 'provide server admin'],
   },
   rooms: {
-    type: mongoose.SchemaTypes.ObjectId,
+    type: [mongoose.SchemaTypes.ObjectId],
     ref: 'Room',
     default: [],
   },
