@@ -2,15 +2,15 @@
 const mongoose = require('mongoose');
 
 //     * SCHEMAS
-const User = require('./User');
+const { UserSchema } = require('./User');
 
 //! SCHEMA
 const InvationSchema = new mongoose.Schema({
   token: {
     type: String,
-    required: [true, 'Provide message'],
+    // required: [true, 'Provide message'],
     trim: true,
-    unique: true,
+    //unique: true,
   },
   expiresIn: {
     type: Date,
@@ -21,7 +21,7 @@ const InvationSchema = new mongoose.Schema({
     default: Date.now(),
     immutable: true,
   },
-  createdBy: User,
+  createdBy: mongoose.SchemaTypes.ObjectId,
   updatedAt: {
     type: Date,
     default: Date.now(),
@@ -34,6 +34,6 @@ InvationSchema.pre('save', async function (next) {
   next();
 });
 
-const InvationSchema = mongoose.model('Invation', InvationSchema);
+const Invation = mongoose.model('Invation', InvationSchema);
 
-module.exports = InvationSchema;
+module.exports = { Invation, InvationSchema };

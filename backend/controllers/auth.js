@@ -1,6 +1,6 @@
 //* IMPORTS
 const crypto = require('crypto');
-const User = require('../models/User');
+const { User } = require('../models/User');
 const ErrorResponse = require('../utils/errorResponse');
 const jwt = require('jsonwebtoken');
 const sendEmail = require('../utils/sendEmail');

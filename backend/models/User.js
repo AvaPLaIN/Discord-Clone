@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
+// const { Server } = require('../models/Server');
+
 //     * VALIDATE
 const {
   validateEmail,
@@ -47,7 +49,16 @@ const UserSchema = new mongoose.Schema({
     minlength: 8,
     select: false,
   },
-  friends: [],
+  friends: {
+    type: [mongoose.SchemaTypes.ObjectId],
+    ref: 'User',
+    default: [],
+  },
+  servers: {
+    type: [mongoose.SchemaTypes.ObjectId],
+    ref: 'Server',
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -119,4 +130,4 @@ UserSchema.methods.getValidateToken = function () {
 
 const User = mongoose.model('User', UserSchema);
 
-module.exports = User;
+module.exports = { User, UserSchema };

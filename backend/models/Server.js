@@ -2,9 +2,9 @@
 const mongoose = require('mongoose');
 
 //     * SCHEMAS
-const User = require('./User');
-const Room = require('./Room');
-const Invation = require('./Invation');
+const { User, UserSchema } = require('./User');
+const { RoomSchema } = require('./Room');
+const { InvationSchema } = require('./Invation');
 
 //! SCHEMA
 const ServerSchema = new mongoose.Schema({
@@ -16,12 +16,22 @@ const ServerSchema = new mongoose.Schema({
     maxlength: 30,
   },
   admin: {
-    type: User,
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'User',
     required: [true, 'provide server admin'],
   },
-  rooms: [Room],
-  users: [User],
-  invations: [Invation],
+  rooms: {
+    type: [RoomSchema],
+    default: [],
+  },
+  users: {
+    type: [mongoose.SchemaTypes.ObjectId],
+    default: [],
+  },
+  invations: {
+    type: [InvationSchema],
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -39,6 +49,6 @@ ServerSchema.pre('save', async function (next) {
   next();
 });
 
-const ServerSchema = mongoose.model('Server', ServerSchema);
+const Server = mongoose.model('Server', ServerSchema);
 
-module.exports = ServerSchema;
+module.exports = { Server, ServerSchema };

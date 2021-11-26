@@ -2,19 +2,18 @@
 const mongoose = require('mongoose');
 
 //     * SCHEMAS
-const User = require('./User');
-const Message = require('./Message');
+const { MessageSchema } = require('./Message');
 
 //! SCHEMA
 const RoomSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'provide roomname'],
+    // required: [true, 'provide roomname'],
     minlength: 3,
     maxlength: 30,
     trim: true,
   },
-  messages: [Message],
+  messages: [MessageSchema],
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -32,6 +31,6 @@ RoomSchema.pre('save', async function (next) {
   next();
 });
 
-const RoomSchema = mongoose.model('Room', RoomSchema);
+const Room = mongoose.model('Room', RoomSchema);
 
-module.exports = RoomSchema;
+module.exports = { Room, RoomSchema };

@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 //     * SCHEMAS
-const User = require('./User');
+const { UserSchema } = require('./User');
 
 //! SCHEMA
 const MessageSchema = new mongoose.Schema({
@@ -13,7 +13,7 @@ const MessageSchema = new mongoose.Schema({
     minlength: 1,
     maxlength: 200,
   },
-  from: User,
+  from: UserSchema,
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -31,6 +31,6 @@ MessageSchema.pre('save', async function (next) {
   next();
 });
 
-const MessageSchema = mongoose.model('Message', MessageSchema);
+const Message = mongoose.model('Message', MessageSchema);
 
-module.exports = MessageSchema;
+module.exports = { Message, MessageSchema };
