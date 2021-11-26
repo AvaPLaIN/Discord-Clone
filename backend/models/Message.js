@@ -13,7 +13,11 @@ const MessageSchema = new mongoose.Schema({
     minlength: 1,
     maxlength: 200,
   },
-  from: UserSchema,
+  from: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'User',
+    required: [true, 'provide from user'],
+  },
   createdAt: {
     type: Date,
     default: Date.now(),

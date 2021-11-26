@@ -8,9 +8,9 @@ const { UserSchema } = require('./User');
 const InvationSchema = new mongoose.Schema({
   token: {
     type: String,
-    // required: [true, 'Provide message'],
+    required: [true, 'Provide message'],
     trim: true,
-    //unique: true,
+    unique: true,
   },
   expiresIn: {
     type: Date,

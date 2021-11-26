@@ -21,15 +21,18 @@ const ServerSchema = new mongoose.Schema({
     required: [true, 'provide server admin'],
   },
   rooms: {
-    type: [RoomSchema],
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Room',
     default: [],
   },
   users: {
     type: [mongoose.SchemaTypes.ObjectId],
+    ref: 'User',
     default: [],
   },
   invations: {
-    type: [InvationSchema],
+    type: [mongoose.SchemaTypes.ObjectId],
+    ref: 'Invation',
     default: [],
   },
   createdAt: {

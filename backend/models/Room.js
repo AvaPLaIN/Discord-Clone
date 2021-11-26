@@ -8,12 +8,16 @@ const { MessageSchema } = require('./Message');
 const RoomSchema = new mongoose.Schema({
   name: {
     type: String,
-    // required: [true, 'provide roomname'],
+    required: [true, 'provide roomname'],
     minlength: 3,
     maxlength: 30,
     trim: true,
   },
-  messages: [MessageSchema],
+  messages: {
+    type: [mongoose.SchemaTypes.ObjectId],
+    ref: 'Message',
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
