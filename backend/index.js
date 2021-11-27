@@ -9,14 +9,12 @@ const app = express();
 
 //! IMPORT ROUTES
 const authRoute = require('./routes/auth');
-const dataRoute = require('./routes/data');
 const serverRoute = require('./routes/server');
 
 app.use(express.json());
 app.use(cors({ origin: '*' }));
 
 app.use('/api/auth', authRoute);
-app.use('/api/data', dataRoute);
 app.use('/api/server', serverRoute);
 
 app.use(errorHandler);

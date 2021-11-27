@@ -77,12 +77,12 @@ const UserSchema = new mongoose.Schema({
 //! USER MIDDLEWARE
 //     ! BCRYPT PASSWORD
 UserSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) next();
-
-  const salt = await bcrypt.genSalt(10);
-
-  this.password = await bcrypt.hash(this.password, salt);
   this.updatedAt = Date.now();
+
+  if (!this.isModified('password')) next();
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+
   next();
 });
 
@@ -112,7 +112,7 @@ UserSchema.methods.getResetPasswordToken = function () {
     .update(resetToken)
     .digest('hex');
 
-  this.resetPasswordExpire = Date.now() + 10 * (60 * 1000); // Ten Minutes
+  this.resetPasswordExpire = Date.now() + 10 * (60 * 1000); //? Ten Minutes
 
   return resetToken;
 };

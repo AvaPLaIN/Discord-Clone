@@ -25,7 +25,7 @@ const ServerSchema = new mongoose.Schema({
     ref: 'User',
     default: [],
   },
-  invations: {
+  invitation: {
     type: [mongoose.SchemaTypes.ObjectId],
     ref: 'Invitation',
     default: [],
