@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 
 //     * COMPONENTS
 import { HomeComponent } from './Home.styled';
+import ServerList from '../../components/server-list/ServerList';
 
 //     * REDUX
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +16,7 @@ const Home = () => {
   const user = useSelector((state) => state.user.user);
 
   useEffect(() => {
-    dispatch(fetch_data(user.accessToken));
+    // dispatch(fetch_data(user.accessToken));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -26,6 +27,7 @@ const Home = () => {
 
   return (
     <HomeComponent>
+      <ServerList />
       <h1>Hello {user.username}</h1>
       <form onSubmit={handleLogout}>
         <button type="submit">Logout</button>

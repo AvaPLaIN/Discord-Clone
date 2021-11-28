@@ -238,9 +238,8 @@ export const user_auth = (user) => async (dispatch) => {
   const verifiedUser = await verify(user);
   console.log('verifiedUser', verifiedUser);
 
-  reset_reports(dispatch, 5000);
-
   if (!verifiedUser?.data && !verifiedUser?.success) {
+    reset_reports(dispatch, 5000);
     dispatch(user_logout());
     return dispatch(user_auth_failure(verifiedUser.error));
   }
