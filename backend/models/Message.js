@@ -6,7 +6,7 @@ const { UserSchema } = require('./User');
 
 //! SCHEMA
 const MessageSchema = new mongoose.Schema({
-  messages: {
+  message: {
     type: String,
     required: [true, 'Provide message'],
     trim: true,
@@ -17,6 +17,11 @@ const MessageSchema = new mongoose.Schema({
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'User',
     required: [true, 'provide from user'],
+  },
+  roomId: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Room',
+    required: [true, 'provide room id'],
   },
   createdAt: {
     type: Date,

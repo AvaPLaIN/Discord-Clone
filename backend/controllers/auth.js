@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const { User } = require('../models/User');
 const ErrorResponse = require('../utils/errorResponse');
 const jwt = require('jsonwebtoken');
+const decode = require('jwt-decode');
 const sendEmail = require('../utils/sendEmail');
 
 //     * VALIDATE
@@ -121,10 +122,11 @@ exports.verify = async (req, res, next) => {
     return next(new ErrorResponse('Provide Credentials', 400));
 
   try {
-    const decodedAccessToken = jwt.verify(
-      accessToken,
-      process.env.JWT_ACCESS_TOKEN_SECRET
-    );
+    const decodedAccessToken = decode(accessToken);
+    // const decodedAccessToken = jwt.verify(
+    //   accessToken,
+    //   process.env.JWT_ACCESS_TOKEN_SECRET
+    // );
     const decodedRefreshToken = jwt.verify(
       refreshToken,
       process.env.JWT_REFRESH_TOKEN_SECRET
@@ -145,6 +147,7 @@ exports.verify = async (req, res, next) => {
 
     sendUserAuth(user, 200, res);
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };

@@ -36,6 +36,7 @@ export const validate = async (token) => {
 export const verify = async (user) => {
   try {
     const data = await axios.post(`${PROXY_URL}/verify`, user);
+    console.log('data', data);
     return data?.data;
   } catch (error) {
     return error.response.data;

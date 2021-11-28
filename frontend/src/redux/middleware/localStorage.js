@@ -1,11 +1,15 @@
 //* IMPORTS
-import { USER_LOGIN_SUCCESS } from '../ducks/user';
+import { USER_LOGIN_SUCCESS, USER_AUTH_SUCCESS } from '../ducks/user';
 
 export const localStorageMiddleware = ({ getState }) => {
   return (next) => (action) => {
     const result = next(action);
 
     if ([USER_LOGIN_SUCCESS].includes(result.type)) {
+      localStorage.setItem('data', JSON.stringify(getState()));
+    }
+
+    if ([USER_AUTH_SUCCESS].includes(result.type)) {
       localStorage.setItem('data', JSON.stringify(getState()));
     }
 

@@ -236,6 +236,7 @@ export const user_auth = (user) => async (dispatch) => {
   dispatch(user_auth_request());
 
   const verifiedUser = await verify(user);
+  console.log('verifiedUser', verifiedUser);
 
   reset_reports(dispatch, 5000);
 
