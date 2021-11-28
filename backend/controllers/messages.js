@@ -1,9 +1,6 @@
 //* IMPORTS
 const ErrorResponse = require('../utils/errorResponse');
-const { Server } = require('../models/Server');
 const { Message } = require('../models/Message');
-const { Room } = require('../models/Room');
-const { User } = require('../models/User');
 
 exports.createMessage = async (req, res, next) => {
   const user = req.user;
@@ -22,10 +19,6 @@ exports.createMessage = async (req, res, next) => {
     });
     await newMessage.save();
 
-    // const room = await Room.findOne({ _id: roomId });
-    // room.rooms = [...room.rooms, room._id];
-    // await room.save();
-
     res.status(200).json({
       success: true,
       data: newMessage,
@@ -43,13 +36,7 @@ exports.getMessagesFromUniqueRoom = async (req, res, next) => {
   if (!roomId) return next(new ErrorResponse('Provide valid room id', 400));
 
   try {
-    const messages = await Messages.find({ roomId });
-    // let messages = [];
-
-    // if (room.messages.length) {
-    //   messages = await room.populate('messages');
-    //   messages = messages.messages;
-    // }
+    const messages = await Message.find({ roomId });
 
     res.status(200).json({
       success: true,
