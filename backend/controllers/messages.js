@@ -30,13 +30,13 @@ exports.createMessage = async (req, res, next) => {
 
 exports.getMessagesFromUniqueRoom = async (req, res, next) => {
   const user = req.user;
-  const roomId = req.body._id;
+  const roomId = req.params.roomId;
 
   //* INPUT VALIDATION
   if (!roomId) return next(new ErrorResponse('Provide valid room id', 400));
 
   try {
-    const messages = await Message.find({ roomId });
+    const messages = await Message.find({ roomId }).populate('from');
 
     res.status(200).json({
       success: true,

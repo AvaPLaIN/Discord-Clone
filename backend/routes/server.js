@@ -39,7 +39,7 @@ router
 
 //* messages controllers
 router
-  .route('/getMessagesFromUniqueRoom')
+  .route('/getMessagesFromUniqueRoom/:roomId')
   .get(protect, getMessagesFromUniqueRoom);
 router.route('/createMessage').post(protect, createMessage);
 

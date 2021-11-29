@@ -29,3 +29,32 @@ export const getRoomsFromUniqueServer = async (accessToken, serverId) => {
     return error.response.data;
   }
 };
+
+export const getMessagesFromUniqueRoom = async (accessToken, roomId) => {
+  try {
+    const data = await axios.get(
+      `${PROXY_URL}/getMessagesFromUniqueRoom/${roomId}`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    return data?.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const createMessage = async (accessToken, roomId, message) => {
+  try {
+    const data = await axios.post(
+      `${PROXY_URL}/createMessage`,
+      { roomId, message },
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    return data?.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

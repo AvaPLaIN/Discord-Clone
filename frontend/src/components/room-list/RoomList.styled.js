@@ -8,7 +8,7 @@ export const RoomListComponent = styled.div`
 
   .room-header {
     height: 5rem;
-    border-bottom: 2px solid #1a1818;
+    border-bottom: 1px solid #1a1818;
     display: flex;
     align-items: center;
     justify-content: space-between;

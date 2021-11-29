@@ -16,7 +16,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case CURRENT_SERVER:
-      return { ...state, currentServer: action.payload };
+      return { ...state, currentServer: action.payload, currentRoom: null };
 
     case CURRENT_ROOM:
       return { ...state, currentRoom: action.payload };
