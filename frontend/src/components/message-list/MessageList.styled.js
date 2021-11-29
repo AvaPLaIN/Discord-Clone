@@ -5,7 +5,8 @@ export const MessageListComponent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  overflow-y: scroll;
+  overflow-y: auto;
+  padding: 0 1rem;
 
   ::-webkit-scrollbar {
     width: 0px;
