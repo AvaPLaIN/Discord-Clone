@@ -26,7 +26,6 @@ export const login = async (credentials) => {
 export const validate = async (token) => {
   try {
     const data = await axios.put(`${PROXY_URL}/validate/${token}`, {});
-    console.log(data);
     return data?.data;
   } catch (error) {
     return error.response.data;
@@ -36,7 +35,6 @@ export const validate = async (token) => {
 export const verify = async (user) => {
   try {
     const data = await axios.post(`${PROXY_URL}/verify`, user);
-    console.log('data', data);
     return data?.data;
   } catch (error) {
     return error.response.data;
@@ -60,7 +58,6 @@ export const requestPassword = async (email) => {
     const data = await axios.post(`${PROXY_URL}/forgotPassword`, {
       email,
     });
-    console.log('data is here man: ', data);
     return data?.data;
   } catch (error) {
     return error.response.data;

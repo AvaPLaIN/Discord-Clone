@@ -15,3 +15,17 @@ export const getServersFromUniqueUser = async (accessToken) => {
     return error.response.data;
   }
 };
+
+export const getRoomsFromUniqueServer = async (accessToken, serverId) => {
+  try {
+    const data = await axios.get(
+      `${PROXY_URL}/getRoomsFromUniqueServer/${serverId}`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    return data?.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

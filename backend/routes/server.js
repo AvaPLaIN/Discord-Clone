@@ -34,7 +34,7 @@ router
 //* rooms controllers
 router.route('/createRoom').post(protect, createRoom);
 router
-  .route('/getRoomsFromUniqueServer')
+  .route('/getRoomsFromUniqueServer/:serverId')
   .get(protect, getRoomsFromUniqueServer);
 
 //* messages controllers

@@ -8,6 +8,7 @@ import ServerItem from '../server-item/ServerItem';
 
 //     * REDUX
 import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentServer } from '../../redux/ducks/server';
 
 //     * SERVICES
 import { getServersFromUniqueUser } from '../../services/server';
@@ -31,6 +32,11 @@ const ServerList = () => {
     fetchServers();
   }, [user.accessToken]);
 
+  //* HANDLER
+  const handleSetCurrentServer = (server) => {
+    dispatch(setCurrentServer(server));
+  };
+
   return (
     <ServerListComponent>
       <div className="home">
@@ -38,7 +44,11 @@ const ServerList = () => {
         <div className="description">Home</div>
       </div>
       {servers.map((server) => (
-        <ServerItem key={server._id} server={server} />
+        <ServerItem
+          key={server._id}
+          server={server}
+          setCurrentServer={handleSetCurrentServer}
+        />
       ))}
     </ServerListComponent>
   );

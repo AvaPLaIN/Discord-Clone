@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 //     * COMPONENTS
 import { HomeComponent } from './Home.styled';
 import ServerList from '../../components/server-list/ServerList';
+import ServerUi from '../../components/server-ui/ServerUi';
 
 //     * REDUX
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,10 +29,7 @@ const Home = () => {
   return (
     <HomeComponent>
       <ServerList />
-      <h1>Hello {user.username}</h1>
-      <form onSubmit={handleLogout}>
-        <button type="submit">Logout</button>
-      </form>
+      <ServerUi />
     </HomeComponent>
   );
 };

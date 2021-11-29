@@ -10,7 +10,7 @@ import {
 
 //     * REDUCERS
 import userReducer, { USER_LOGOUT } from './ducks/user';
-import dataReducer from './ducks/data';
+import serverReducer from './ducks/server';
 
 //* MIDDLEWARE
 let middleware = [];
@@ -22,7 +22,7 @@ middleware = [...middleware, thunkMiddleware, localStorageMiddleware];
 //* STATES
 const appReducer = combineReducers({
   user: userReducer,
-  data: dataReducer,
+  server: serverReducer,
 });
 
 const rootReducer = (state, action) => {

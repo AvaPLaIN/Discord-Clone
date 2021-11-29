@@ -33,7 +33,7 @@ exports.createRoom = async (req, res, next) => {
 
 exports.getRoomsFromUniqueServer = async (req, res, next) => {
   const user = req.user;
-  const serverId = req.body._id;
+  const serverId = req.params.serverId;
 
   //* INPUT VALIDATION
   if (!serverId) return next(new ErrorResponse('Provide valid server id', 400));

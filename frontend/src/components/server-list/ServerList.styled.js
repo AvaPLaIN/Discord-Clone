@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const ServerListComponent = styled.div`
-  padding: 0.8rem 0;
+  padding: 0.8rem 0 0 0;
   width: clamp(70px, 70px, 70px);
   height: 100%;
   background-color: #1a1818;
@@ -10,10 +10,19 @@ export const ServerListComponent = styled.div`
   align-items: center;
   justify-content: flex-start;
   gap: 1rem;
+  /* overflow-y: scroll;
+  overflow-x: visible; */
+
+  ::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
 
   .home {
-    width: 50px;
-    height: 50px;
+    max-width: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    max-height: 50px;
     border-radius: 50%;
     display: flex;
     align-items: center;
