@@ -5,6 +5,7 @@ const router = express.Router();
 const {
   createServer,
   getServersFromUniqueUser,
+  getMembersFromUniqueServer,
 } = require('../controllers/server');
 const { getUsersFromUniqueServer } = require('../controllers/users');
 const {
@@ -22,6 +23,9 @@ const { protect } = require('../middleware/auth');
 //! ROUTER
 //* server controllers
 router.route('/createServer').post(protect, createServer);
+router
+  .route('/getMembersFromUniqueServer/:serverId')
+  .get(protect, getMembersFromUniqueServer);
 router
   .route('/getServersFromUniqueUser')
   .get(protect, getServersFromUniqueUser);

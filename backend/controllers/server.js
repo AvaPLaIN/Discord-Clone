@@ -48,3 +48,19 @@ exports.getServersFromUniqueUser = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getMembersFromUniqueServer = async (req, res, next) => {
+  const user = req.user;
+  const serverId = req.params.serverId;
+
+  try {
+    const { users } = await Server.findOne({ _id: serverId }).populate('users');
+
+    res.status(200).json({
+      success: true,
+      data: users,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

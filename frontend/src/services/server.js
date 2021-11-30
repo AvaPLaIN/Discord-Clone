@@ -16,6 +16,20 @@ export const getServersFromUniqueUser = async (accessToken) => {
   }
 };
 
+export const getMembersFromUniqueServer = async (accessToken, serverId) => {
+  try {
+    const data = await axios.get(
+      `${PROXY_URL}/getMembersFromUniqueServer/${serverId}`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    return data?.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
 export const getRoomsFromUniqueServer = async (accessToken, serverId) => {
   try {
     const data = await axios.get(
