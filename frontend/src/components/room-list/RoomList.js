@@ -1,6 +1,6 @@
 //* IMPORTS
 //     * REACT
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 //     * COMPONENTS
 import { RoomListComponent } from './RoomList.styled';
@@ -11,13 +11,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentRoom } from '../../redux/ducks/server';
 
 //     * SERVICES
-import { getRoomsFromUniqueServer } from '../../services/server';
+import { getRoomsFromUniqueServer, createRoom } from '../../services/server';
+
+//     * HOOKS
+import useOnClickOutside from '../../hooks/useOnClickOutside';
 
 //     * FONT AWESOME
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faAngleDown,
-  faCertificate,
   faMicrophone,
   faHeadphones,
   faCog,
@@ -29,9 +31,16 @@ const RoomList = () => {
   const serverId = useSelector((state) => state?.server?.currentServer?._id);
   const serverName = useSelector((state) => state?.server?.currentServer?.name);
   const accessToken = useSelector((state) => state?.user?.user?.accessToken);
-  const { username } = useSelector((state) => state.user.user);
+  const { username } = useSelector((state) => state?.user?.user);
 
   const [rooms, setRooms] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [roomNameInput, setRoomNameInput] = useState('');
+
+  //* REFS
+  const addContainer = useRef();
+
+  useOnClickOutside(addContainer, () => setIsOpen(false));
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -46,17 +55,25 @@ const RoomList = () => {
     dispatch(setCurrentRoom(room));
   };
 
+  const handleCreateRoom = (e) => {
+    e.preventDefault();
+    createRoom(accessToken, serverId, roomNameInput);
+    setRoomNameInput('');
+    setIsOpen(false);
+  };
+
   return (
-    <RoomListComponent>
+    <RoomListComponent isOpen={isOpen}>
       <div className="room-header">
-        {/* <div className="certificate">
-          <FontAwesomeIcon className="icon" icon={faCertificate} />
-          <p>0</p>
-        </div> */}
         <h1>{serverName}</h1>
         <FontAwesomeIcon className="icon" icon={faAngleDown} />
       </div>
       <div className="room-list">
+        {serverId && (
+          <div className="create">
+            <button onClick={() => setIsOpen(true)}>Create</button>
+          </div>
+        )}
         {rooms.map((room) => (
           <RoomItem
             key={room?._id}
@@ -74,6 +91,24 @@ const RoomList = () => {
           <FontAwesomeIcon className="icon" icon={faMicrophone} />
           <FontAwesomeIcon className="icon" icon={faHeadphones} />
           <FontAwesomeIcon className="icon" icon={faCog} />
+        </div>
+      </div>
+      <div className="add">
+        <div ref={addContainer} className="container">
+          <div className="header">
+            <button onClick={() => setIsOpen(false)}>X</button>
+          </div>
+          <div className="create-room">
+            <form onSubmit={handleCreateRoom}>
+              <input
+                type="text"
+                placeholder="roomname..."
+                value={roomNameInput}
+                onChange={(e) => setRoomNameInput(e.target.value)}
+              />
+              <button type="submit">Create</button>
+            </form>
+          </div>
         </div>
       </div>
     </RoomListComponent>

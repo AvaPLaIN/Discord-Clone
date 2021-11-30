@@ -1,6 +1,6 @@
 //* IMPORTS
 //     * REACT
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 //     * COMPONENTS
 import { ServerListComponent } from './ServerList.styled';
@@ -11,34 +11,61 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentServer } from '../../redux/ducks/server';
 
 //     * SERVICES
-import { getServersFromUniqueUser } from '../../services/server';
+import { getServersFromUniqueUser, createServer } from '../../services/server';
+
+//     * HOOKS
+import useOnClickOutside from '../../hooks/useOnClickOutside';
 
 //     * FONT AWESOME
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 import { faDiscord } from '@fortawesome/free-brands-svg-icons';
 
 const ServerList = () => {
+  //* STATES
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
-
+  const accessToken = useSelector((state) => state?.user?.user?.accessToken);
   const [servers, setServers] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
 
+  const [serverNameInput, setServerNameInput] = useState('');
+  const [serverInvitationInput, setServerInvitationInput] = useState('');
+
+  //* REFS
+  const addContainer = useRef();
+
+  useOnClickOutside(addContainer, () => setIsOpen(false));
+
+  //* USE-EFFECT
   useEffect(() => {
     const fetchServers = async () => {
-      const data = await getServersFromUniqueUser(user.accessToken);
+      const data = await getServersFromUniqueUser(accessToken);
       setServers(data.data);
     };
 
     fetchServers();
-  }, [user.accessToken]);
+  }, [accessToken]);
 
   //* HANDLER
   const handleSetCurrentServer = (server) => {
     dispatch(setCurrentServer(server));
   };
 
+  const handleCreateServer = (e) => {
+    e.preventDefault();
+    createServer(accessToken, serverNameInput);
+    setServerNameInput('');
+    setServerInvitationInput('');
+    setIsOpen(false);
+  };
+
+  const handleJoinServer = (e) => {
+    e.preventDefault();
+  };
+
   return (
-    <ServerListComponent>
+    <ServerListComponent isOpen={isOpen}>
       <div className="home">
         <FontAwesomeIcon className="server-icon" icon={faDiscord} />
         <div className="description">Home</div>
@@ -50,6 +77,43 @@ const ServerList = () => {
           setCurrentServer={handleSetCurrentServer}
         />
       ))}
+      <div className="create">
+        <FontAwesomeIcon
+          onClick={() => setIsOpen(true)}
+          className="server-icon"
+          icon={faPlus}
+        />
+        <div className="description">Add Server</div>
+      </div>
+      <div className="add">
+        <div ref={addContainer} className="container">
+          <div className="header">
+            <button onClick={() => setIsOpen(false)}>X</button>
+          </div>
+          <div className="create-server">
+            <form onSubmit={handleCreateServer}>
+              <input
+                type="text"
+                placeholder="servername..."
+                value={serverNameInput}
+                onChange={(e) => setServerNameInput(e.target.value)}
+              />
+              <button type="submit">Create</button>
+            </form>
+          </div>
+          <div className="join">
+            <form onSubmit={handleJoinServer}>
+              <input
+                type="text"
+                placeholder="invitation-link..."
+                value={serverInvitationInput}
+                onChange={(e) => setServerInvitationInput(e.target.value)}
+              />
+              <button type="submit">Join</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </ServerListComponent>
   );
 };

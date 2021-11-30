@@ -11,7 +11,8 @@ export const ServerItemComponent = styled.div`
   justify-content: center;
   position: relative;
   cursor: pointer;
-  background-color: ${(props) => props.backgroundColor};
+  background-color: #5865f2;
+  /* background-color: ${(props) => props.backgroundColor}; */
   padding: 1rem;
   transition: all 0.1s ease-in;
 

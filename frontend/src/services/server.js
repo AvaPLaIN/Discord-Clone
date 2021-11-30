@@ -58,3 +58,33 @@ export const createMessage = async (accessToken, roomId, message) => {
     return error.response.data;
   }
 };
+
+export const createServer = async (accessToken, servername) => {
+  try {
+    const data = await axios.post(
+      `${PROXY_URL}/createServer`,
+      { servername },
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    return data?.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const createRoom = async (accessToken, serverId, roomName) => {
+  try {
+    const data = await axios.post(
+      `${PROXY_URL}/createRoom`,
+      { serverId, roomName },
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    return data?.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
