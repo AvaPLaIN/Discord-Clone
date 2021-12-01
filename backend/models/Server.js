@@ -25,11 +25,6 @@ const ServerSchema = new mongoose.Schema({
     ref: 'User',
     default: [],
   },
-  invitation: {
-    type: [mongoose.SchemaTypes.ObjectId],
-    ref: 'Invitation',
-    default: [],
-  },
   createdAt: {
     type: Date,
     default: Date.now(),

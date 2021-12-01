@@ -102,3 +102,38 @@ export const createRoom = async (accessToken, serverId, roomName) => {
     return error.response.data;
   }
 };
+
+export const joinServerWithInvitation = async (accessToken, token) => {
+  try {
+    const data = await axios.post(
+      `${PROXY_URL}/joinServerWithInvitation`,
+      { token },
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    return data?.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
+
+export const createInvitation = async (
+  accessToken,
+  number,
+  serverId,
+  expiresIn
+) => {
+  try {
+    const data = await axios.post(
+      `${PROXY_URL}/createInvitation`,
+      { number, serverId, expiresIn },
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    return data?.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

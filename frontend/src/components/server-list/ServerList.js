@@ -12,6 +12,7 @@ import { setCurrentServer } from '../../redux/ducks/server';
 
 //     * SERVICES
 import { getServersFromUniqueUser, createServer } from '../../services/server';
+import { joinServerWithInvitation } from '../../services/server';
 
 //     * HOOKS
 import useOnClickOutside from '../../hooks/useOnClickOutside';
@@ -62,6 +63,10 @@ const ServerList = () => {
 
   const handleJoinServer = (e) => {
     e.preventDefault();
+    joinServerWithInvitation(accessToken, serverInvitationInput);
+    setServerNameInput('');
+    setServerInvitationInput('');
+    setIsOpen(false);
   };
 
   return (

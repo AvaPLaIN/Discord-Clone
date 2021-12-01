@@ -16,6 +16,10 @@ const {
   getMessagesFromUniqueRoom,
   createMessage,
 } = require('../controllers/messages');
+const {
+  createInvitation,
+  joinServerWithInvitation,
+} = require('../controllers/invitation');
 
 //! IMPORT MIDDLEWARE
 const { protect } = require('../middleware/auth');
@@ -46,5 +50,11 @@ router
   .route('/getMessagesFromUniqueRoom/:roomId')
   .get(protect, getMessagesFromUniqueRoom);
 router.route('/createMessage').post(protect, createMessage);
+
+//* invitation controllers
+router.route('/createInvitation').post(protect, createInvitation);
+router
+  .route('/joinServerWithInvitation')
+  .post(protect, joinServerWithInvitation);
 
 module.exports = router;

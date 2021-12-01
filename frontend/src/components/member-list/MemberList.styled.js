@@ -6,6 +6,7 @@ export const MemberListComponent = styled.div`
   padding: 1rem;
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   align-items: flex-start;
   justify-content: flex-start;
   overflow-y: scroll;

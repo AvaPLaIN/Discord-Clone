@@ -9,8 +9,14 @@ const InvitationSchema = new mongoose.Schema({
     trim: true,
     unique: true,
   },
+  serverId: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Server',
+    required: [true, 'provide serverId'],
+  },
   expiresIn: {
     type: Date,
+    required: [true, 'provide expiresIn'],
   },
   number: Number,
   createdAt: {
@@ -18,7 +24,11 @@ const InvitationSchema = new mongoose.Schema({
     default: Date.now(),
     immutable: true,
   },
-  createdBy: mongoose.SchemaTypes.ObjectId,
+  createdBy: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'User',
+    required: [true, 'provide created by user'],
+  },
   updatedAt: {
     type: Date,
     default: Date.now(),
@@ -31,6 +41,6 @@ InvitationSchema.pre('save', async function (next) {
   next();
 });
 
-const Invation = mongoose.model('Invitation', InvitationSchema);
+const Invitation = mongoose.model('Invitation', InvitationSchema);
 
-module.exports = { Invation, InvitationSchema };
+module.exports = { Invitation, InvitationSchema };
