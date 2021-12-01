@@ -196,4 +196,100 @@ export const RoomListComponent = styled.div`
       }
     }
   }
+
+  .invitation {
+    display: ${(props) => (props?.isInvitationOpen ? 'flex' : 'none')};
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    align-items: center;
+    justify-content: center;
+
+    .container {
+      width: 50rem;
+      height: 30rem;
+      border-radius: 1rem;
+      padding: 2rem;
+      background-color: rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .header {
+        align-self: flex-end;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
+        button {
+          padding: 1rem;
+          cursor: pointer;
+          outline: none;
+          border: none;
+          background-color: transparent;
+          color: var(--font-color-white);
+        }
+      }
+
+      .create-invitation {
+        align-self: flex-start;
+        display: flex;
+        align-items: center;
+
+        form {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1rem;
+
+          div {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+
+            select {
+              width: 37rem;
+              border-bottom-left-radius: 1rem;
+              border-top-left-radius: 1rem;
+              border: none;
+              background-color: #2e2a2a;
+              color: var(--font-color-greyed);
+              padding: 1.5rem 1rem;
+              outline: none;
+            }
+          }
+
+          button {
+            width: 9rem;
+            padding: 1.5rem 1rem;
+            background-color: #2e2a2a;
+            color: var(--font-color-greyed);
+            border: none;
+            border-left: 1px solid black;
+            cursor: pointer;
+
+            &:hover {
+              color: var(--font-color-white);
+            }
+          }
+
+          input {
+            width: 37rem;
+            border-radius: 1rem;
+            border: none;
+            background-color: #2e2a2a;
+            color: var(--font-color-greyed);
+            padding: 1.5rem 1rem;
+            outline: none;
+          }
+        }
+      }
+    }
+  }
 `;

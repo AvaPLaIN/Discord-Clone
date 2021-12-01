@@ -38,7 +38,7 @@ exports.createInvitation = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      data: newInvitation,
+      data: newInvitation.token,
     });
   } catch (error) {
     next(error);

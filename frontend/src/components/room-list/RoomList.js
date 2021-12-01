@@ -11,7 +11,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentRoom } from '../../redux/ducks/server';
 
 //     * SERVICES
-import { getRoomsFromUniqueServer, createRoom } from '../../services/server';
+import {
+  getRoomsFromUniqueServer,
+  createRoom,
+  createInvitation,
+} from '../../services/server';
 
 //     * HOOKS
 import useOnClickOutside from '../../hooks/useOnClickOutside';
@@ -29,18 +33,27 @@ const RoomList = () => {
   const dispatch = useDispatch();
 
   const serverId = useSelector((state) => state?.server?.currentServer?._id);
+  const serverAdmin = useSelector(
+    (state) => state?.server?.currentServer?.admin
+  );
   const serverName = useSelector((state) => state?.server?.currentServer?.name);
   const accessToken = useSelector((state) => state?.user?.user?.accessToken);
-  const { username } = useSelector((state) => state?.user?.user);
+  const { username, id } = useSelector((state) => state?.user?.user);
 
   const [rooms, setRooms] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isInvitationOpen, setIsInvitationOpen] = useState(false);
   const [roomNameInput, setRoomNameInput] = useState('');
+  const [invitationNumber, setInvitationNumber] = useState(1);
+  const [invitationExpiresIn, setInvitationExpiresIn] = useState(1);
+  const [newToken, setNewToken] = useState('');
 
   //* REFS
   const addContainer = useRef();
+  const invitationContainer = useRef();
 
   useOnClickOutside(addContainer, () => setIsOpen(false));
+  useOnClickOutside(invitationContainer, () => setIsInvitationOpen(false));
 
   useEffect(() => {
     const fetchRooms = async () => {
@@ -62,11 +75,34 @@ const RoomList = () => {
     setIsOpen(false);
   };
 
+  const handleCreateInvitation = async (e) => {
+    e.preventDefault();
+    console.log('here');
+    console.log(accessToken, invitationNumber, serverId, invitationExpiresIn);
+    const data = await createInvitation(
+      accessToken,
+      invitationNumber,
+      serverId,
+      invitationExpiresIn
+    );
+    setNewToken(data?.data);
+  };
+
+  const handleSetInvitationOpen = () => {
+    if (serverAdmin === id) {
+      setIsInvitationOpen(true);
+    }
+  };
+
   return (
-    <RoomListComponent isOpen={isOpen}>
+    <RoomListComponent isOpen={isOpen} isInvitationOpen={isInvitationOpen}>
       <div className="room-header">
         <h1>{serverName}</h1>
-        <FontAwesomeIcon className="icon" icon={faAngleDown} />
+        <FontAwesomeIcon
+          onClick={handleSetInvitationOpen}
+          className="icon"
+          icon={faAngleDown}
+        />
       </div>
       <div className="room-list">
         {serverId && (
@@ -107,6 +143,48 @@ const RoomList = () => {
                 onChange={(e) => setRoomNameInput(e.target.value)}
               />
               <button type="submit">Create</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div className="invitation">
+        <div ref={invitationContainer} className="container">
+          <div className="header">
+            <p>Create Invitation Token</p>
+            <button onClick={() => setIsInvitationOpen(false)}>X</button>
+          </div>
+          <div className="create-invitation">
+            <form onSubmit={handleCreateInvitation}>
+              <div>
+                <label htmlFor="expiresIn">Expires In</label>
+                <select
+                  id="expiresIn"
+                  value={invitationExpiresIn}
+                  onChange={(e) => setInvitationExpiresIn(e.target.value)}
+                >
+                  <option value={1}>1 Day</option>
+                  <option value={3}>3 Days</option>
+                  <option value={7}>7 Days</option>
+                  <option value={14}>14 Days</option>
+                  {/* <option value={-1}>unlimited</option> */}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="number">Uses</label>
+                <select
+                  id="number"
+                  value={invitationNumber}
+                  onChange={(e) => setInvitationNumber(e.target.value)}
+                >
+                  <option value={1}>1 use</option>
+                  <option value={5}>5 uses</option>
+                  <option value={10}>10 uses</option>
+                  <option value={20}>20 uses</option>
+                  {/* <option value={-1}>unlimited</option> */}
+                </select>
+              </div>
+              <button type="submit">Create</button>
+              {newToken && <input value={newToken} />}
             </form>
           </div>
         </div>
