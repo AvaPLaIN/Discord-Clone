@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
 export const MessageListComponent = styled.div`
+  max-height: calc(100vh - 12rem);
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  overflow-y: scroll;
+  padding: 0 0 2rem 0;
   gap: 1rem;
-  overflow-y: auto;
-  padding: 0.5rem 1rem;
 
   ::-webkit-scrollbar {
     width: 0px;

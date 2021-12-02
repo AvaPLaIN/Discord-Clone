@@ -1,6 +1,6 @@
 //* IMPORTS
 //     * REACT
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 //     * COMPONENTS
 import { RoomListComponent } from './RoomList.styled';

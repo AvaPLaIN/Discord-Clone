@@ -75,6 +75,6 @@ export const RoomDetailsComponent = styled.div`
 
   .room-ui {
     display: flex;
-    height: calc(100%);
+    flex: 1;
   }
 `;

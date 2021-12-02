@@ -6,4 +6,5 @@ export const AppComponent = styled.div`
   display: flex;
   flex-direction: column;
   background-color: var(--background-color-main);
+  overflow: hidden;
 `;

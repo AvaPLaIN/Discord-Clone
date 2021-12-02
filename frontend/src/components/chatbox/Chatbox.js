@@ -1,13 +1,14 @@
 //* IMPORTS
 //     * REACT
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 //     * COMPONENTS
 import { ChatBoxComponent } from './Chatbox.styled';
 import MessageList from '../message-list/MessageList';
 
 //     * REDUX
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addMessage } from '../../redux/ducks/server';
 
 //     * SERVICES
 import { createMessage } from '../../services/server';
@@ -21,6 +22,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const Chatbox = () => {
+  const dispatch = useDispatch();
+
   const accessToken = useSelector((state) => state?.user?.user?.accessToken);
   const roomId = useSelector((state) => state?.server?.currentRoom?._id);
   const [message, setMessage] = useState('');
@@ -28,8 +31,15 @@ const Chatbox = () => {
   //* HANDLER
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    await createMessage(accessToken, roomId, message);
-    setMessage('');
+    try {
+      const newMessage = await createMessage(accessToken, roomId, message);
+      dispatch(addMessage(newMessage.data));
+      //TODO socket io send new Message
+
+      setMessage('');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

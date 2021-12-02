@@ -1,5 +1,6 @@
 //* IMPORTS
 //     * REACT
+import React from 'react';
 
 //     * COMPONENTS
 import { RoomItemComponent } from './RoomItem.styled';

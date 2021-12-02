@@ -1,6 +1,6 @@
 //* IMPORTS
 //     * REACT
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 //     * COMPONENTS
 import { AuthComponent } from './Auth.styled';

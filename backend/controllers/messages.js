@@ -19,6 +19,8 @@ exports.createMessage = async (req, res, next) => {
     });
     await newMessage.save();
 
+    await newMessage.populate('from');
+
     res.status(200).json({
       success: true,
       data: newMessage,

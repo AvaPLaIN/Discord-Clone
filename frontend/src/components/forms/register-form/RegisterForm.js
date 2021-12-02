@@ -1,6 +1,6 @@
 //* IMPORTS
 //     * REACT
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 //     * REDUX
 import { useDispatch, useSelector } from 'react-redux';

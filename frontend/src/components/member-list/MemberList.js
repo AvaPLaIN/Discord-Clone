@@ -1,6 +1,6 @@
 //* IMPORTS
 //     * REACT
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 //     * COMPONENTS
 import { MemberListComponent } from './MemberList.styled';
