@@ -1,6 +1,6 @@
 //* IMPORTS
 //     * REACT
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 //     * COMPONENTS
 import { ChatBoxComponent } from './Chatbox.styled';
@@ -12,6 +12,7 @@ import { addMessage } from '../../redux/ducks/server';
 
 //     * SERVICES
 import { createMessage } from '../../services/server';
+import { socket } from '../../services/socket';
 
 //     * FONT AWESOME
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -33,9 +34,8 @@ const Chatbox = () => {
     e.preventDefault();
     try {
       const newMessage = await createMessage(accessToken, roomId, message);
-      dispatch(addMessage(newMessage.data));
-      //TODO socket io send new Message
-
+      // dispatch(addMessage(newMessage.data));
+      socket.emit('addMessage', { message: newMessage, roomId });
       setMessage('');
     } catch (error) {
       console.log(error);

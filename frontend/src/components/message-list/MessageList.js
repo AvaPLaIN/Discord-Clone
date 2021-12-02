@@ -8,10 +8,15 @@ import MessageItem from '../message-item/MessageItem';
 
 //     * REDUX
 import { useSelector, useDispatch } from 'react-redux';
-import { resetMessages, setMessages } from '../../redux/ducks/server';
+import {
+  resetMessages,
+  setMessages,
+  addMessage,
+} from '../../redux/ducks/server';
 
 //     * SERVICES
 import { getMessagesFromUniqueRoom } from '../../services/server';
+import { socket } from '../../services/socket';
 
 const MessageList = () => {
   const dispatch = useDispatch();
@@ -33,6 +38,13 @@ const MessageList = () => {
   useEffect(() => {
     containerRef.current.scrollTop = containerRef.current.scrollHeight;
   }, [messages]);
+
+  useEffect(() => {
+    socket.on('newMessage', (data) => {
+      console.log(data);
+      dispatch(addMessage(data));
+    });
+  }, []);
 
   return (
     <MessageListComponent ref={containerRef}>

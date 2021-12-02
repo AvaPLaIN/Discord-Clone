@@ -16,6 +16,7 @@ import {
   createRoom,
   createInvitation,
 } from '../../services/server';
+import { socket } from '../../services/socket';
 
 //     * HOOKS
 import useOnClickOutside from '../../hooks/useOnClickOutside';
@@ -36,6 +37,7 @@ const RoomList = () => {
   const serverAdmin = useSelector(
     (state) => state?.server?.currentServer?.admin
   );
+  const currentRoomId = useSelector((state) => state?.server?.currentRoom?._id);
   const serverName = useSelector((state) => state?.server?.currentServer?.name);
   const accessToken = useSelector((state) => state?.user?.user?.accessToken);
   const { username, id } = useSelector((state) => state?.user?.user);
@@ -63,9 +65,22 @@ const RoomList = () => {
     if (serverId) fetchRooms();
   }, [serverId, accessToken]);
 
+  useEffect(() => {
+    socket.on('userJoinedRoom', (data) => {
+      console.log('userJoinedRoom: ', data);
+    });
+
+    return () => socket.disconnect();
+  }, []);
+
   //* HANDLER
   const handleSetCurrentRoom = (room) => {
+    currentRoomId &&
+      socket.emit('leaveRoom', { userId: id, roomId: currentRoomId });
+
     dispatch(setCurrentRoom(room));
+
+    socket.emit('joinRoom', { userId: id, roomId: room._id });
   };
 
   const handleCreateRoom = (e) => {
