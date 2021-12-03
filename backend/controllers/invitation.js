@@ -84,7 +84,7 @@ exports.joinServerWithInvitation = async (req, res, next) => {
 
     res.status(200).json({
       success: true,
-      data: 'successfully joined the Server',
+      data: server,
     });
   } catch (error) {
     next(error);

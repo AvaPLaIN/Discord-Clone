@@ -37,24 +37,16 @@ process.on('unhandledRejection', (error, promise) => {
 
 //! SOCKET IO
 io.on('connection', (socket) => {
-  socket.on('disconnect', () => {
-    //console.log('User disconnected');
-  });
-
   socket.on('joinServer', ({ serverId }) => {
-    console.log('joined Server');
     socket.join(serverId);
   });
 
   socket.on('leaveServer', ({ serverId }) => {
-    console.log('leaved server');
     socket.leave(serverId);
   });
 
   socket.on('joinRoom', ({ userId, roomId }) => {
-    //console.log(`user ${userId} joined Room ${roomId}`);
     socket.join(roomId);
-    //io.emit('userJoinedRoom', userId);
   });
 
   socket.on('leaveRoom', ({ userId, roomId }) => {
@@ -62,16 +54,17 @@ io.on('connection', (socket) => {
   });
 
   socket.on('addMessage', ({ message, roomId }) => {
-    // console.log(`user sent a message ${message} to Room ${roomId}`);
     io.to(roomId).emit('newMessage', message.data);
   });
 
   socket.on('addMember', ({ member, serverId }) => {
-    io.to(serverId).emit('newMember', member.data);
+    io.to(serverId).emit('newMember', {
+      _id: member?.id,
+      username: member?.username,
+    });
   });
 
   socket.on('addRoom', ({ room, serverId }) => {
-    console.log('addRoom');
     io.to(serverId).emit('newRoom', room.data);
   });
 });

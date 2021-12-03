@@ -29,6 +29,7 @@ const ServerList = () => {
   const dispatch = useDispatch();
   const accessToken = useSelector((state) => state?.user?.user?.accessToken);
   const userId = useSelector((state) => state?.user?.user?.id);
+  const currentUser = useSelector((state) => state?.user?.user);
   const currentServerId = useSelector(
     (state) => state?.server?.currentServer?._id
   );
@@ -53,10 +54,6 @@ const ServerList = () => {
     fetchServers();
   }, [accessToken]);
 
-  useEffect(() => {
-    return () => socket.emit('leaveServer', { serverId: currentServerId });
-  });
-
   //* HANDLER
   const handleSetCurrentServer = (server) => {
     currentServerId &&
@@ -67,20 +64,35 @@ const ServerList = () => {
     socket.emit('joinServer', { serverId: server._id });
   };
 
-  const handleCreateServer = (e) => {
+  const handleCreateServer = async (e) => {
     e.preventDefault();
-    createServer(accessToken, serverNameInput);
+    const newServer = await createServer(accessToken, serverNameInput);
+    setServers((prev) => [...prev, newServer?.data]);
     setServerNameInput('');
     setServerInvitationInput('');
     setIsOpen(false);
   };
 
-  const handleJoinServer = (e) => {
+  const handleJoinServer = async (e) => {
     e.preventDefault();
-    joinServerWithInvitation(accessToken, serverInvitationInput);
-    setServerNameInput('');
-    setServerInvitationInput('');
-    setIsOpen(false);
+    try {
+      const newServer = await joinServerWithInvitation(
+        accessToken,
+        serverInvitationInput
+      );
+      if (newServer?.success) {
+        setServers((prev) => [...prev, newServer?.data]);
+        socket.emit('addMember', {
+          member: currentUser,
+          serverId: newServer?.data?._id,
+        });
+        setServerNameInput('');
+        setServerInvitationInput('');
+        setIsOpen(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 
 //     * SERVICES
 import { getMembersFromUniqueServer } from '../../services/server';
+import { socket } from '../../services/socket';
 
 //     * FONT AWESOME
 
@@ -28,6 +29,12 @@ const MemberList = () => {
 
     serverId ? fetchMembers() : setMembers([]);
   }, [serverId, accessToken]);
+
+  useEffect(() => {
+    socket.on('newMember', (data) => {
+      setMembers((prev) => [...prev, data]);
+    });
+  }, []);
 
   return (
     <MemberListComponent>
