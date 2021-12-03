@@ -13,6 +13,7 @@ import { setCurrentServer } from '../../redux/ducks/server';
 //     * SERVICES
 import { getServersFromUniqueUser, createServer } from '../../services/server';
 import { joinServerWithInvitation } from '../../services/server';
+import { socket } from '../../services/socket';
 
 //     * HOOKS
 import useOnClickOutside from '../../hooks/useOnClickOutside';
@@ -27,6 +28,10 @@ const ServerList = () => {
   //* STATES
   const dispatch = useDispatch();
   const accessToken = useSelector((state) => state?.user?.user?.accessToken);
+  const userId = useSelector((state) => state?.user?.user?.id);
+  const currentServerId = useSelector(
+    (state) => state?.server?.currentServer?._id
+  );
   const [servers, setServers] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -48,9 +53,18 @@ const ServerList = () => {
     fetchServers();
   }, [accessToken]);
 
+  useEffect(() => {
+    return () => socket.emit('leaveServer', { serverId: currentServerId });
+  });
+
   //* HANDLER
   const handleSetCurrentServer = (server) => {
+    currentServerId &&
+      socket.emit('leaveServer', { serverId: currentServerId });
+
     dispatch(setCurrentServer(server));
+
+    socket.emit('joinServer', { serverId: server._id });
   };
 
   const handleCreateServer = (e) => {

@@ -66,11 +66,12 @@ const RoomList = () => {
   }, [serverId, accessToken]);
 
   useEffect(() => {
-    socket.on('userJoinedRoom', (data) => {
-      console.log('userJoinedRoom: ', data);
+    socket.on('newRoom', (data) => {
+      setRooms((prev) => [...prev, data]);
     });
 
-    return () => socket.disconnect();
+    return () =>
+      socket.emit('leaveRoom', { userId: id, roomId: currentRoomId });
   }, []);
 
   //* HANDLER
@@ -83,17 +84,22 @@ const RoomList = () => {
     socket.emit('joinRoom', { userId: id, roomId: room._id });
   };
 
-  const handleCreateRoom = (e) => {
+  const handleCreateRoom = async (e) => {
     e.preventDefault();
-    createRoom(accessToken, serverId, roomNameInput);
-    setRoomNameInput('');
-    setIsOpen(false);
+    try {
+      const newRoom = await createRoom(accessToken, serverId, roomNameInput);
+      if (newRoom.success) {
+        socket.emit('addRoom', { room: newRoom, serverId });
+        setRoomNameInput('');
+        setIsOpen(false);
+      }
+    } catch (error) {
+      console.log('error: ', error);
+    }
   };
 
   const handleCreateInvitation = async (e) => {
     e.preventDefault();
-    console.log('here');
-    console.log(accessToken, invitationNumber, serverId, invitationExpiresIn);
     const data = await createInvitation(
       accessToken,
       invitationNumber,
