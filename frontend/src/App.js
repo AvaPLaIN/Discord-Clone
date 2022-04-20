@@ -1,19 +1,19 @@
 //* IMPORTS
 //     * REACT
-import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 
 //     * REDUX
-import { useSelector, useDispatch } from 'react-redux';
-import { user_auth } from './redux/ducks/user';
+import { useSelector, useDispatch } from "react-redux";
+import { user_auth } from "./redux/ducks/user";
 
 //     * COMPONENTS
-import { AppComponent } from './App.styled';
-import Auth from './pages/authentication/auth/Auth';
-import ResetPassword from './pages/authentication/reset-password/ResetPassword';
-import RequestPassword from './pages/authentication/request-password/RequestPassword';
-import ValidateUser from './pages/authentication/validate-user/ValidateUser';
-import Home from './pages/home/Home';
+import { AppComponent } from "./App.styled";
+import Auth from "./pages/authentication/auth/Auth";
+import ResetPassword from "./pages/authentication/reset-password/ResetPassword";
+import RequestPassword from "./pages/authentication/request-password/RequestPassword";
+import ValidateUser from "./pages/authentication/validate-user/ValidateUser";
+import Home from "./pages/home/Home";
 
 function App() {
   const dispatch = useDispatch();
